@@ -1,0 +1,13 @@
+// This icon file is generated automatically.
+
+import * as React from 'react'
+import <%= identifier %>Svg from '../../svg-data/asn/<%= identifier %>';
+import AntdIcon, { AntdIconProps } from '../../components/AntdIcon';
+
+const <%= identifier %> = (
+  props: AntdIconProps,
+  ref: React.ForwardedRef<HTMLSpanElement>,
+) => <AntdIcon {...props} ref={ref} icon={<%= identifier %>Svg} />;
+
+<%= identifier %>.displayName = '<%= identifier %>';
+export default React.forwardRef<HTMLSpanElement, AntdIconProps>(<%= identifier %>);

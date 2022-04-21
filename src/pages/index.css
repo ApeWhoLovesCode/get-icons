@@ -1,0 +1,13 @@
+.demo-icon {
+  padding-top: 12px;
+  background-color: #f6f6f6;
+  display: flex;
+  flex-wrap: wrap;
+}
+.icon-item {
+  width: 100px;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}

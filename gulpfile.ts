@@ -35,13 +35,13 @@ export default series(
     // 2.1 copy helpers.ts, types.ts
     copy({
       from: ['templates/*.ts'],
-      toDir: 'svg-data'
+      toDir: 'src/svg-data'
     }),
     // 2.2 generate abstract node with the theme "linear"
     generateIcons({
       theme: 'linear',
       from: ['svg/linear/*.svg'],
-      toDir: 'svg-data/asn',
+      toDir: 'src/svg-data/asn',
       svgoConfig: generalConfig,
       extraNodeTransformFactories: [
         assignAttrsAtTag('svg', { focusable: 'false' }),
@@ -60,7 +60,7 @@ export default series(
     generateIcons({
       theme: 'oneFace',
       from: ['svg/oneFace/*.svg'],
-      toDir: 'svg-data/asn',
+      toDir: 'src/svg-data/asn',
       svgoConfig: generalConfig,
       extraNodeTransformFactories: [
         assignAttrsAtTag('svg', { focusable: 'false' }),
@@ -79,7 +79,7 @@ export default series(
     generateIcons({
       theme: 'twotone',
       from: ['svg/twotone/*.svg'],
-      toDir: 'svg-data/asn',
+      toDir: 'src/svg-data/asn',
       svgoConfig: remainFillConfig,
       extraNodeTransformFactories: [
         assignAttrsAtTag('svg', { focusable: 'false' }),
@@ -99,8 +99,8 @@ export default series(
     // 3.1 generate entry file: svg-data/index.ts
     generateEntry({
       entryName: 'index.ts',
-      from: ['svg-data/asn/*.ts'],
-      toDir: 'svg-data',
+      from: ['src/svg-data/asn/*.ts'],
+      toDir: 'src/svg-data',
       banner: '// This index.ts file is generated automatically.\n',
       template: `export { default as <%= identifier %> } from '<%= path %>';`,
       mapToInterpolate: ({ name: identifier }) => ({
@@ -113,8 +113,8 @@ export default series(
   parallel(
     // 4.1 generate entry file: com-icons
     generateComIcons({
-      from: ['svg-data/asn/*.ts'],
-      toDir: 'com-icons/asn',
+      from: ['src/svg-data/asn/*.ts'],
+      toDir: 'src/com-icons/asn',
       template: iconComTemplate,
       mapToInterpolate: ({ name: identifier }) => ({
         identifier,
@@ -127,8 +127,8 @@ export default series(
     // 4.2 generate entry file: svg-data/index.tsx
     generateEntry({
       entryName: 'index.tsx',
-      from: ['com-icons/asn/*.tsx'],
-      toDir: 'com-icons',
+      from: ['src/com-icons/asn/*.tsx'],
+      toDir: 'src/com-icons',
       banner: '// This index.ts file is generated automatically.\n',
       template: `export { default as <%= identifier %> } from '<%= path %>';`,
       mapToInterpolate: ({ name: identifier }) => ({
