@@ -1,10 +1,10 @@
 import { src, dest } from 'gulp';
-import { useTemplate } from '../../plugins';
+import { handleTemplate } from '../../plugins';
 import concat from 'gulp-concat';
 import header from 'gulp-header';
-import { UseTemplatePluginOptions } from '../../plugins/useTemplate';
+import { HandleTemplatePluginOptions } from '../../plugins/handleTemplate';
 
-export interface GenerateEntryOptions extends UseTemplatePluginOptions {
+export interface GenerateEntryOptions extends HandleTemplatePluginOptions {
   from: string[];
   toDir: string;
   entryName: string;
@@ -22,7 +22,7 @@ export const generateEntry = ({
   function GenerateEntry() {
     return src(from)
       .pipe(
-        useTemplate({
+        handleTemplate({
           template,
           mapToInterpolate
         })

@@ -4,7 +4,8 @@ import {
   copy,
   generateIcons,
   generateEntry,
-  generateComIcons
+  generateComIcons,
+  generateDemo
 } from './tasks/creators';
 import { generalConfig, remainFillConfig } from './plugins/svgo/presets';
 import {
@@ -28,7 +29,7 @@ const iconComTemplate = readFileSync(
 );
 
 export default series(
-  // 1. clean
+  /*   // 1. clean
   clean(['svg-data', 'inline-svg', 'es', 'lib']),
 
   parallel(
@@ -37,7 +38,7 @@ export default series(
       from: ['templates/*.ts'],
       toDir: 'src/svg-data'
     }),
-    // 2.2 generate abstract node with the theme "linear"
+    // 2.2 根据svg图标生成对于的代码段 主题: linear
     generateIcons({
       theme: 'linear',
       from: ['svg/linear/*.svg'],
@@ -56,7 +57,7 @@ export default series(
       filename: ({ name }) => getIdentifier({ name, themeSuffix: 'Linear' })
     }),
 
-    // 2.2 generate abstract node with the theme "oneFace"
+    // 2.3 根据svg图标生成对于的代码段 主题: oneFace
     generateIcons({
       theme: 'oneFace',
       from: ['svg/oneFace/*.svg'],
@@ -75,7 +76,7 @@ export default series(
       filename: ({ name }) => getIdentifier({ name, themeSuffix: 'OneFace' })
     }),
 
-    // 2.3 generate abstract node with the theme "twotone"
+    // 2.4 根据svg图标生成对于的代码段 主题: twotone
     generateIcons({
       theme: 'twotone',
       from: ['svg/twotone/*.svg'],
@@ -95,8 +96,9 @@ export default series(
       filename: ({ name }) => getIdentifier({ name, themeSuffix: 'TwoTone' })
     })
   ),
+
   parallel(
-    // 3.1 generate entry file: svg-data/index.ts
+    // 3.1 根据上面的svg数据导出一个index.ts
     generateEntry({
       entryName: 'index.ts',
       from: ['src/svg-data/asn/*.ts'],
@@ -110,8 +112,8 @@ export default series(
     }),
   ),
 
+  // 4 根据svg数据生成对应的tsx文件
   parallel(
-    // 4.1 generate entry file: com-icons
     generateComIcons({
       from: ['src/svg-data/asn/*.ts'],
       toDir: 'src/com-icons/asn',
@@ -123,14 +125,43 @@ export default series(
       filename: ({ name }) => getIdentifier({ name })
     }),
   ),
+
+  // 5 根据tsx文件导出一个index.tsx
   parallel(
-    // 4.2 generate entry file: svg-data/index.tsx
     generateEntry({
       entryName: 'index.tsx',
       from: ['src/com-icons/asn/*.tsx'],
       toDir: 'src/com-icons',
       banner: '// This index.ts file is generated automatically.\n',
       template: `export { default as <%= identifier %> } from '<%= path %>';`,
+      mapToInterpolate: ({ name: identifier }) => ({
+        identifier,
+        path: `./asn/${identifier}`
+      })
+    }),
+  ), */
+
+  // 6 生成demo的icon的html文件
+  parallel(
+    generateEntry({
+      entryName: 'demo.html',
+      from: ['src/com-icons/asn/*.tsx'],
+      toDir: 'src/pages',
+      template: `<span className="icon-item"><<%= identifier %>  /></span>`,
+      mapToInterpolate: ({ name: identifier }) => ({
+        identifier,
+        path: `./asn/${identifier}`
+      })
+    }),
+  ),
+
+  // 7 生成demo的index.tsx文件
+  parallel(
+    generateDemo({
+      entryName: 'index.tsx',
+      from: ['src/com-icons/asn/*.tsx'],
+      toDir: 'src/pages',
+      template: `<%= identifier %>, `,
       mapToInterpolate: ({ name: identifier }) => ({
         identifier,
         path: `./asn/${identifier}`

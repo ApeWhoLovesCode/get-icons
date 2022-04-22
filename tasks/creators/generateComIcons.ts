@@ -1,9 +1,9 @@
 import { src, dest } from 'gulp';
 import rename from 'gulp-rename';
-import { UseTemplatePluginOptions } from '../../plugins/useTemplate';
-import { useTemplate } from '../../plugins';
+import { HandleTemplatePluginOptions } from '../../plugins/handleTemplate';
+import { handleTemplate } from '../../plugins';
 
-export interface GenerateIconsOptions extends UseTemplatePluginOptions {
+export interface GenerateIconsOptions extends HandleTemplatePluginOptions {
   from: string[];
   toDir: string;
   filename: (option: { name: string }) => string;
@@ -21,7 +21,7 @@ export const generateComIcons = ({
     // src 获取任务要处理的文件
     // dest 输出文件
     return src(from)
-      .pipe(useTemplate({ template, mapToInterpolate }))
+      .pipe(handleTemplate({ template, mapToInterpolate }))
       .pipe(
         rename((file) => {
           if (file.basename) {
