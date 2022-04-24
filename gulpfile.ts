@@ -5,7 +5,8 @@ import {
   generateIcons,
   generateEntry,
   generateComIcons,
-  generateDemo
+  generateDemo,
+  generateDemoFs,
 } from './tasks/creators';
 import { generalConfig, remainFillConfig } from './plugins/svgo/presets';
 import {
@@ -29,8 +30,8 @@ const iconComTemplate = readFileSync(
 );
 
 export default series(
-  /*   // 1. clean
-  clean(['svg-data', 'inline-svg', 'es', 'lib']),
+  // 1. clean
+  // clean(['svg-data', 'inline-svg', 'es', 'lib']),
 
   parallel(
     // 2.1 copy helpers.ts, types.ts
@@ -139,33 +140,33 @@ export default series(
         path: `./asn/${identifier}`
       })
     }),
-  ), */
+  ),
 
   // 6 生成demo的icon的html文件
-  parallel(
-    generateEntry({
-      entryName: 'demo.html',
-      from: ['src/com-icons/asn/*.tsx'],
-      toDir: 'src/pages',
-      template: `<span className="icon-item"><<%= identifier %>  /></span>`,
-      mapToInterpolate: ({ name: identifier }) => ({
-        identifier,
-        path: `./asn/${identifier}`
-      })
-    }),
-  ),
-
+  // parallel(
+  //   generateEntry({
+  //     entryName: 'demo.html',
+  //     from: ['src/com-icons/asn/*.tsx'],
+  //     toDir: 'src/pages',
+  //     template: `<span className="icon-item"><<%= identifier %>  /></span>`,
+  //     mapToInterpolate: ({ name: identifier }) => ({
+  //       identifier,
+  //       path: `./asn/${identifier}`
+  //     })
+  //   }),
+  // ),
   // 7 生成demo的index.tsx文件
-  parallel(
-    generateDemo({
-      entryName: 'index.tsx',
-      from: ['src/com-icons/asn/*.tsx'],
-      toDir: 'src/pages',
-      template: `<%= identifier %>, `,
-      mapToInterpolate: ({ name: identifier }) => ({
-        identifier,
-        path: `./asn/${identifier}`
-      })
-    }),
-  ),
+  // parallel(
+  //   generateDemo({
+  //     entryName: 'index.tsx',
+  //     from: ['src/com-icons/asn/*.tsx'],
+  //     toDir: 'src/pages',
+  //     template: `<%= identifier %>, `,
+  //     mapToInterpolate: ({ name: identifier }) => ({
+  //       identifier,
+  //       path: `./asn/${identifier}`
+  //     })
+  //   }),
+  // ),
+  generateDemoFs
 );

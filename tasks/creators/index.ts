@@ -5,3 +5,4 @@ export { generateIcons } from './generateIcons';
 export { generateInline } from './generateInline';
 export { generateComIcons } from './generateComIcons';
 export { generateDemo } from './generateDemo';
+export { generateDemoFs } from './generateDemoFs';
