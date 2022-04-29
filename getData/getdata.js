@@ -116,7 +116,7 @@ const arrToStr = (arr) => {
   str = str.replace(/,([^,]*)$/, '!')
   for(const item of arr) {
     const svgListKey = Object.keys(item)[0]
-    str += Object.keys(item[svgListKey]).join(',')
+    str += Object.keys(item[svgListKey]).join(',') + ','
   }
   return str
 }
