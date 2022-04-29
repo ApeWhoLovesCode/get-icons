@@ -54,12 +54,12 @@ const getSvg = async (url) => {
   // console.log(svgAllList);
 
   const str = arrToStr(svgAllList)
-  // console.log('zh-name: ', str);
+  console.log('zh-name: ', str);
   const newStr = await translate(str)
-  // console.log('en-name: ', newStr);
+  console.log('en-name: ', newStr);
 
-  const newSvgAllList = strToArr(newStr, svgAllList)
-  console.log('newSvgAllList: ', newSvgAllList);
+  // const newSvgAllList = strToArr(newStr, svgAllList)
+  // console.log('newSvgAllList: ', newSvgAllList);
 
   // 生成svg文件夹
   // const dir = `getData/svg`
@@ -118,7 +118,8 @@ const arrToStr = (arr) => {
     const svgListKey = Object.keys(item)[0]
     str += Object.keys(item[svgListKey]).join(',') + ','
   }
-  return str
+  return str.replace(/,([^,]*)$/, '')
+  // return str
 }
 /** 
  * 将字符串转成svg对象数组 (中午key变英文key)
