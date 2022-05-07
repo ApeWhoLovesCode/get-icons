@@ -8,6 +8,11 @@
 # testing
 /coverage
 
+# auto generated
+src/com-icons
+src/svg-data
+src/svg
+
 # production
 /build
 

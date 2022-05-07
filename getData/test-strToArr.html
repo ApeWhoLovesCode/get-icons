@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  <div class="main">
+    <div class="item"><span class="a">1</span></div>
+    <div class="item"><span class="a">2</span></div>
+    <div class="item"><span class="a">3</span></div>
+    <div class="item"><span class="a">4</span></div>
+  </div>
+</body>
+<script>
+  const targetStr = 'q, w! q b, qq2, w a, ww2'
+  const targetArr = [{a: {Aa:1, aa2: 11}}, {b: {bb:2, Bb2: 222}}]
+
+  /** 将数组中key替换 */
+  const strToArr = (str, arr) => {
+    const strArr = str.toLocaleLowerCase().split('! ')
+    const folderName = strArr[0].split(', ')
+    const fileName = strArr[1].split(', ')
+    const newArr = []
+    let fileIndex = 0
+    for(const index in arr) {
+      const svgListKey = Object.keys(arr[index])[0]
+      const res = {}
+      for(let i in arr[index][svgListKey]) {
+        res[handleSpace(fileName[fileIndex])] = arr[index][svgListKey][i]
+        fileIndex++
+      }
+      newArr.push({[folderName[index]]: res})
+    }
+    return newArr
+  }
+  /** 将空格清除，把后面的字符变为大写 */
+  const handleSpace = (target) => {
+    const spaceIndex = target.indexOf(' ')
+    if(spaceIndex === -1) return target
+    const letter = target[spaceIndex+1]
+    const reg = new RegExp(` ${letter}`)
+    return target.replace(reg, letter.toLocaleUpperCase())
+  }
+
+  const list = strToArr(targetStr, targetArr)
+  console.log('list: ', list);
+  for(const item of list) {
+    const folderSvg = Object.values(item)[0]
+    for(const svgKey in folderSvg) {
+      console.log(svgKey);
+      console.log(folderSvg[svgKey]);
+    }
+  }
+</script>
+</html>

@@ -6,8 +6,8 @@ const fs = require('fs')
 
 const getSvg = async (url) => {
   //启动浏览器
-  // const browers = await puppeteer.launch()
-  const browers = await puppeteer.launch({headless: false}) // 打开浏览器
+  const browers = await puppeteer.launch()
+  // const browers = await puppeteer.launch({headless: false}) // 打开浏览器
   //启动新页面
   const page = await browers.newPage()
   //链接网址
@@ -39,7 +39,6 @@ const getSvg = async (url) => {
       const res = {}
       const svgDomList = document.querySelectorAll("#root .main .page-collection-detail-wrap ul li")
       for(let dom of svgDomList) {
-        // res.push(dom.querySelector('.icon-twrap').innerHTML)
         // const svgName = (dom.querySelector('.icon-name span') as HTMLElement).innerText
         const svgName = dom.querySelector('.icon-name span').innerText
         res[svgName] = dom.querySelector('.icon-twrap').innerHTML
@@ -47,40 +46,46 @@ const getSvg = async (url) => {
       return res
     });
 
-    // svgAllList.push.apply(svgAllList, list)
     svgAllList.push({[svgListKey]: svgObj})
     await page.goBack({timeout: 30})
   }
-  // console.log(svgAllList);
 
   const str = arrToStr(svgAllList)
-  console.log('zh-name: ', str);
+  // console.log('zh-name: ', str);
   const newStr = await translate(str)
-  console.log('en-name: ', newStr);
+  // console.log('en-name: ', newStr);
 
-  // const newSvgAllList = strToArr(newStr, svgAllList)
-  // console.log('newSvgAllList: ', newSvgAllList);
+  const newSvgAllList = strToArr(newStr, svgAllList)
 
-  // 生成svg文件夹
-  // const dir = `getData/svg`
-  // for(let folder of folderName) {
-  //   const folderDir = dir + '/' +  folder
-  //   if (!fs.existsSync(folderDir)) {
-  //     fs.mkdirSync(folderDir);
-  //   }
-  // }
-  // for(let i in svgAllList) {
-  //   fs.writeFileSync(`${dir}/icon${i}.svg`, svgAllList[i])
-  // }
+  // 生成 svg 文件夹 / 文件
+  const dir = `src/svg`
+  if (fs.existsSync(dir)) {
+    clearDir(dir)
+  }
+  if (!fs.existsSync(dir)) {
+    fs.mkdirSync(dir);
+  }
+  for(const item of newSvgAllList) {
+    const folder = Object.keys(item)[0]
+    const folderDir = dir + '/' + folder
+    if (!fs.existsSync(folderDir)) {
+      fs.mkdirSync(folderDir);
+    }
+    const svgFolder = Object.values(item)[0]
+    for(const svgKey in svgFolder) {
+      fs.writeFileSync(`${folderDir}/${svgKey}.svg`, svgFolder[svgKey])
+    }
+  }
   
   // 最后关闭浏览器
-  // await browers.close();
+  await browers.close();
 }
 getSvg('https://www.iconfont.cn/user/detail?spm=a313x.7781069.1998910419.d9bd4f23f&uid=9130643&nid=7smdkOsK6RuQ')
 
 /** 翻译 */
 const translate = async (str) => {
-  const browers = await puppeteer.launch({headless: false}) // 打开浏览器
+  const browers = await puppeteer.launch() 
+  // const browers = await puppeteer.launch({headless: false}) // 打开浏览器
   //启动新页面
   const page = await browers.newPage()
   //链接网址
@@ -103,8 +108,8 @@ const translate = async (str) => {
       return pre += cur.innerText
     }, '')
   });
+  await browers.close()
   return transOutput
-  // await browers.close()
 }
 
 /** 将svg对象数组转字符串 */
@@ -129,24 +134,79 @@ const arrToStr = (arr) => {
  * }
  */
 const strToArr = (str, arr) => {
-  const strArr = str.split('! ')
+  const strArr = str.toLocaleLowerCase().split('! ')
   const folderName = strArr[0].split(', ')
-  console.log('folderName: ', folderName);
   const fileName = strArr[1].split(', ')
-  console.log('fileName: ', fileName);
   const newArr = []
   let fileIndex = 0
   for(const index in arr) {
     const svgListKey = Object.keys(arr[index])[0]
     const res = {}
     for(let i in arr[index][svgListKey]) {
-      res[fileName[fileIndex]] = arr[index][svgListKey][i]
+      res[handleSpace(fileName[fileIndex])] = arr[index][svgListKey][i]
       fileIndex++
     }
     newArr.push({[folderName[index]]: res})
   }
   return newArr
 }
+/** 将空格清除，把后面的字符变为大写 */
+const handleSpace = (target) => {
+  const spaceIndex = target.indexOf(' ')
+  if(spaceIndex === -1) return target
+  const letter = target[spaceIndex+1]
+  const reg = new RegExp(` ${letter}`)
+  return target.replace(reg, letter.toLocaleUpperCase())
+}
+
+
+/**
+ * 删除文件夹下所有问价及将文件夹下所有文件清空
+ * @param {*} path 
+ */
+function emptyDir(path) {
+  const files = fs.readdirSync(path);
+  files.forEach(file => {
+    const filePath = `${path}/${file}`;
+    const stats = fs.statSync(filePath);
+    if (stats.isDirectory()) {
+      emptyDir(filePath);
+    } else {
+      fs.unlinkSync(filePath);
+    }
+  });
+}
+
+/**
+ * 删除指定路径下的所有空文件夹
+ * @param {*} path 
+ */
+function rmEmptyDir(path, level=0) {
+  const files = fs.readdirSync(path);
+  if (files.length > 0) {
+    let tempFile = 0;
+    files.forEach(file => {
+      tempFile++;
+      rmEmptyDir(`${path}/${file}`, 1);
+    });
+    if (tempFile === files.length && level !== 0) {
+      fs.rmdirSync(path);
+    }
+  }
+  else {
+    level !==0 && fs.rmdirSync(path);
+  }
+}
+
+/**
+ * 清空指定路径下的所有文件及文件夹
+ * @param {*} path 
+ */
+function clearDir(path) {
+  emptyDir(path);
+  rmEmptyDir(path);
+}
+
 
 // interface SvgList {
 //   [key: string]: SvgVal

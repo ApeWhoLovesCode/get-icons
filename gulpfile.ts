@@ -5,7 +5,6 @@ import {
   generateIcons,
   generateEntry,
   generateComIcons,
-  generateDemo,
   generateDemoFs,
 } from './tasks/creators';
 import { generalConfig, remainFillConfig } from './plugins/svgo/presets';
@@ -31,7 +30,7 @@ const iconComTemplate = readFileSync(
 
 export default series(
   // 1. clean
-  // clean(['svg-data', 'inline-svg', 'es', 'lib']),
+  clean(['src/svg-data', 'src/com-icons']),
 
   parallel(
     // 2.1 copy helpers.ts, types.ts
@@ -42,7 +41,7 @@ export default series(
     // 2.2 根据svg图标生成对于的代码段 主题: linear
     generateIcons({
       theme: 'linear',
-      from: ['svg/linear/*.svg'],
+      from: ['src/svg/linear/*.svg'],
       toDir: 'src/svg-data/asn',
       svgoConfig: generalConfig,
       extraNodeTransformFactories: [
@@ -58,10 +57,10 @@ export default series(
       filename: ({ name }) => getIdentifier({ name, themeSuffix: 'Linear' })
     }),
 
-    // 2.3 根据svg图标生成对于的代码段 主题: oneFace
+    // 2.3 根据svg图标生成对于的代码段 主题: faceted
     generateIcons({
-      theme: 'oneFace',
-      from: ['svg/oneFace/*.svg'],
+      theme: 'faceted',
+      from: ['src/svg/faceted/*.svg'],
       toDir: 'src/svg-data/asn',
       svgoConfig: generalConfig,
       extraNodeTransformFactories: [
@@ -71,16 +70,16 @@ export default series(
       stringify: JSON.stringify,
       template: iconTemplate,
       mapToInterpolate: ({ name, content }) => ({
-        identifier: getIdentifier({ name, themeSuffix: 'OneFace' }),
+        identifier: getIdentifier({ name, themeSuffix: 'Faceted' }),
         content
       }),
-      filename: ({ name }) => getIdentifier({ name, themeSuffix: 'OneFace' })
+      filename: ({ name }) => getIdentifier({ name, themeSuffix: 'Faceted' })
     }),
 
     // 2.4 根据svg图标生成对于的代码段 主题: twotone
     generateIcons({
       theme: 'twotone',
-      from: ['svg/twotone/*.svg'],
+      from: ['src/svg/twotone/*.svg'],
       toDir: 'src/svg-data/asn',
       svgoConfig: remainFillConfig,
       extraNodeTransformFactories: [
@@ -98,8 +97,8 @@ export default series(
     })
   ),
 
+  // 3 根据上面的svg数据导出一个index.ts
   parallel(
-    // 3.1 根据上面的svg数据导出一个index.ts
     generateEntry({
       entryName: 'index.ts',
       from: ['src/svg-data/asn/*.ts'],
@@ -142,31 +141,5 @@ export default series(
     }),
   ),
 
-  // 6 生成demo的icon的html文件
-  // parallel(
-  //   generateEntry({
-  //     entryName: 'demo.html',
-  //     from: ['src/com-icons/asn/*.tsx'],
-  //     toDir: 'src/pages',
-  //     template: `<span className="icon-item"><<%= identifier %>  /></span>`,
-  //     mapToInterpolate: ({ name: identifier }) => ({
-  //       identifier,
-  //       path: `./asn/${identifier}`
-  //     })
-  //   }),
-  // ),
-  // 7 生成demo的index.tsx文件
-  // parallel(
-  //   generateDemo({
-  //     entryName: 'index.tsx',
-  //     from: ['src/com-icons/asn/*.tsx'],
-  //     toDir: 'src/pages',
-  //     template: `<%= identifier %>, `,
-  //     mapToInterpolate: ({ name: identifier }) => ({
-  //       identifier,
-  //       path: `./asn/${identifier}`
-  //     })
-  //   }),
-  // ),
   generateDemoFs
 );

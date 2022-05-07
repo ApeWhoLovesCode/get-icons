@@ -7,6 +7,7 @@
 .icon-item {
   width: 100px;
   height: 100px;
+  padding: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
