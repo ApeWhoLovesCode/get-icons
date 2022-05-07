@@ -25,8 +25,9 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "get": "node getData/getdata.js && npm run g",
+    "get": "node getData/getdata.js",
     "g": "npm run generate",
+    "getg": "node getData/getdata.js && npm run g",
     "generate": "cross-env NODE_ENV=production gulp --require ts-node/register/transpile-only"
   },
   "eslintConfig": {
