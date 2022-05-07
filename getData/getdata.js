@@ -51,8 +51,10 @@ const getSvg = async (url) => {
   }
 
   const str = arrToStr(svgAllList)
+  console.log('----get-svg-done----');
   // console.log('zh-name: ', str);
   const newStr = await translate(str)
+  console.log('----translate-done----');
   // console.log('en-name: ', newStr);
 
   const newSvgAllList = strToArr(newStr, svgAllList)
@@ -76,6 +78,7 @@ const getSvg = async (url) => {
       fs.writeFileSync(`${folderDir}/${svgKey}.svg`, svgFolder[svgKey])
     }
   }
+  console.log('----create-done----');
   
   // 最后关闭浏览器
   await browers.close();
