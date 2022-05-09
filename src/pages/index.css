@@ -4,12 +4,17 @@
   display: flex;
   flex-wrap: wrap;
 }
-.icon-item {
-  width: 120px;
+.demo-icon .icon-item {
+  width: 180px;
   height: 120px;
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 60px;
   color: #999;
+}
+.demo-icon .icon-name {
+  margin-top: 8px;
+  font-size: 14px;
 }

@@ -4,7 +4,7 @@ export const generateDemoFs = () => {
   return new Promise((resolve) => {
     const fileNames = fs.readdirSync('src/com-icons/asn')
     const comFiles = sortLetter(fileNames.map(item => item.replace('.tsx', '')))
-    const htmlFiles = comFiles.map(item => `<span className="icon-item"><${item} /></span>`)
+    const htmlFiles = comFiles.map(item => `<span className="icon-item"><${item} /><span className="icon-name">${item}</span></span>`)
     const template = fs.readFileSync('src/pages/template.txt').toString()
     const demo = template.replace('@com', comFiles.toString()).replace('@html', htmlFiles.join('\n        '))
     fs.writeFile('src/pages/index.tsx', demo, () => {
