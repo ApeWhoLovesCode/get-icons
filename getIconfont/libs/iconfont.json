@@ -1,0 +1,9 @@
+{
+  "symbol_url": "http://at.alicdn.com/t/font_2724499_f9zs2a6sj0s.js",
+  "save_dir": "./src/iconfont",
+  "lang": "react",
+  "platforms": ["weapp","h5"],
+  "use_rpx": false,
+  "trim_icon_prefix": "icon",
+  "default_icon_size": 18
+}

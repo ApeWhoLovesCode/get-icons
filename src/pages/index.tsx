@@ -3,6 +3,7 @@ import './index.css';
 import {
   AddLinear,AllLinear,CloseLinear,CommentLinear,CustomerServiceLinear,DateLinear,DownLinear,FemaleLinear,FireLinear,FullScreenLinear,InvisibleLinear,LeftLinear,LikeLinear,MessageLinear,MoreLinear,PlayLinear,RightLinear,SearchLinear,StarLinear,TickLinear,UpLinear,CameraFaceted,CloseFaceted,DataFaceted,DiagnosisFormFaceted,DietFaceted,DoctorTeamFaceted,EditFaceted,EyeFaceted,FilterFaceted,HomePageFaceted,HospitalFaceted,LearningCenterFaceted,MemberFaceted,MessageFaceted,MyFaceted,PhoneFaceted,PlayFaceted,PositioningFaceted,PromptFaceted,RecordFaceted,TeamFaceted,TimeFaceted
 } from '../com-icons/index';
+import WxIcon from "../components/WxIcon";
 
 export default class PickerDemo extends Component<{}> {
   render() {
@@ -51,6 +52,7 @@ export default class PickerDemo extends Component<{}> {
         <span className="icon-item"><RecordFaceted /><span className="icon-name">RecordFaceted</span></span>
         <span className="icon-item"><TeamFaceted /><span className="icon-name">TeamFaceted</span></span>
         <span className="icon-item"><TimeFaceted /><span className="icon-name">TimeFaceted</span></span>
+        <WxIcon name="yonghuguanli" color={['blue','rgb(76, 176, 255)']} size={80} />
       </div>
     );
   }

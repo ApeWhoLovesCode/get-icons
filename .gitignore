@@ -12,6 +12,7 @@
 src/com-icons
 src/svg-data
 src/svg
+iconfont.json
 
 # production
 /build
