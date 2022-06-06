@@ -94,9 +94,9 @@ const translate = async (str) => {
   //链接网址
   await page.goto('https://fanyi.baidu.com/#zh/en')
 
-  await page.waitForSelector('#desktop-guide-wrapper .desktop-guide .desktop-guide-inner') 
-  const mask = await page.$(`.desktop-guide .desktop-guide-close`);
-  mask.click()
+  // await page.waitForSelector('#desktop-guide-wrapper .desktop-guide .desktop-guide-inner') 
+  // const mask = await page.$(`.desktop-guide .desktop-guide-close`);
+  // mask.click()
 
   await page.waitForSelector('.container .main .translate-main #baidu_translate_input') 
   const textarea = await page.$(`.container .main .translate-main #baidu_translate_input`);

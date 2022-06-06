@@ -70,6 +70,7 @@
     "@types/lodash.camelcase": "^4.3.6",
     "@types/lodash.template": "^4.4.6",
     "@types/lodash.upperfirst": "^4.3.6",
+    "@types/minimist": "^1.2.2",
     "@types/mkdirp": "^0.5.2",
     "@types/node": "^13.9.3",
     "@types/ramda": "^0.26.43",

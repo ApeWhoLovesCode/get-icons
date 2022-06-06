@@ -1,0 +1,3 @@
+const iconData: {[key: string]: string} = @svgData
+
+export default iconData

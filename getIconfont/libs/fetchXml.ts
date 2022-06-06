@@ -28,7 +28,7 @@ export const fetchXml = async (url: string): Promise<XmlData> => {
 
     if (matches) {
       return new Promise<XmlData>((resolve, reject) => {
-        parseString(`<svg>${matches[1]}</svg>`, { rootName: 'svg' },  (err: Error, result: XmlData) => {
+        parseString(`<svg>${matches[1]}</svg>`, { rootName: 'svg' },  (err: any, result: XmlData) => {
           if (err) {
             reject(err);
           } else {
@@ -39,7 +39,7 @@ export const fetchXml = async (url: string): Promise<XmlData> => {
     }
 
     throw new Error('You provide a wrong symbol url');
-  } catch (e) {
+  } catch (e: any) {
     console.error(colors.red(e.message || 'Unknown Error'));
     process.exit(1);
     throw e;
