@@ -1,3 +1,13 @@
-const iconData: {[key: string]: string} = @svgData
+export type IconType = {
+  [key in IconEnum]: string
+}
+
+export enum IconEnum {
+  @iconEnum
+}
+
+const iconData: IconType = {
+  @svgData
+}
 
 export default iconData

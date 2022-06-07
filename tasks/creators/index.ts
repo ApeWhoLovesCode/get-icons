@@ -6,4 +6,5 @@ export { generateInline } from './generateInline';
 export { generateComIcons } from './generateComIcons';
 export { generateDemo } from './generateDemo';
 export { generateDemoFs } from './generateDemoFs';
+export { generateExportIconData } from './generateExportIconData';
 export { generateWxIcon } from './generateWxIcon';

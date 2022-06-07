@@ -3,12 +3,14 @@ import './index.css';
 import {
   @com
 } from '../com-icons/index';
+import WxIcon, { IconEnum } from "../components/WxIcon";
 
 export default class PickerDemo extends Component<{}> {
   render() {
     return (
       <div className="demo-icon">
         @html
+        @wxIcon
       </div>
     );
   }

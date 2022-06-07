@@ -1,0 +1,8 @@
+import { @importIcon } from './index';
+import { IconDefinition } from '../types';
+
+const iconObj: {[key: string]: IconDefinition} = {
+  @iconObj
+}
+
+export default iconObj

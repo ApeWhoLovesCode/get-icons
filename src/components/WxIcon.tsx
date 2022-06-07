@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import IconData from "../wx-icons-test";
+import IconData, { IconEnum }  from "../wx-icons";
 
 export interface WxIconProps {
-  name?: string
+  name: IconEnum
   color?: string | string[]
   size?: number
 }
+
+export { IconEnum }
 
 const WxIcon = React.forwardRef<HTMLSpanElement, WxIconProps>((props, ref) => {
   const { color, size, name } = props
@@ -17,7 +19,7 @@ const WxIcon = React.forwardRef<HTMLSpanElement, WxIconProps>((props, ref) => {
       function escape(str: string) {
         return str.replace('#', '%23')
       }
-      if(name && IconData?.[name]) {
+      if(name && IconData[name]) {
         let str = IconData[name]
         str = str.replaceAll('@svgSize', String(size))
         if (typeof color === 'string') {
