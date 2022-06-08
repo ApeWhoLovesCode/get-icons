@@ -1,6 +1,7 @@
 import fs from 'fs';
 import iconObj from '../../src/svg-data/export'
 import {AbstractNode} from '../../src/svg-data/types'
+import checkDir from "../../utils/checkDir";
 
 export const generateWxIcon = () => {
   return new Promise((resolve) => {
@@ -31,8 +32,9 @@ export const generateWxIcon = () => {
 
     const template = fs.readFileSync('templates/wxIcon.txt').toString()
     const svgData = template.replace('@svgData', iconData.join('\n  ')).replace('@iconEnum', iconEnum.join(',\n  '))
-
-    fs.writeFile('src/wx-icons/index.ts', svgData, () => {
+    const dir = 'src/wx-icons'
+    checkDir(dir)
+    fs.writeFile(`${dir}/index.ts`, svgData, () => {
       resolve(0)
     })
   })
