@@ -1,6 +1,6 @@
 import fs from 'fs';
 import iconObj from '../../src/svg-data/export'
-import {AbstractNode} from '../../src/svg-data/types'
+import {AbstractNode} from '../../src/types'
 import checkDir from "../../utils/checkDir";
 
 export const generateWxIcon = () => {

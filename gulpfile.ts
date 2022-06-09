@@ -34,6 +34,7 @@ export default series(
   // 1. clean
   clean(['src/svg-data', 'src/com-icons']),
 
+  // parallel 里面的内容是并行执行的
   parallel(
     // 2.1 copy helpers.ts, types.ts
     copy({
@@ -143,8 +144,9 @@ export default series(
     }),
   ),
 
-  // 生成导出icon数据的文件
+  // 根据svg数据生成导出数据文件
   generateExportIconData,
+
   // 生成用于微信的img背景icon
   generateWxIcon,
 
