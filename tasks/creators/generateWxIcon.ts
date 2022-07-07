@@ -1,14 +1,16 @@
 import fs from 'fs';
-import iconObj from '../../src/svg-data/export'
-import {AbstractNode} from '../../src/types'
+// import iconObj from '../../src/svg-data/export'
+import { AbstractNode } from '../../src/types'
 import checkDir from "../../utils/checkDir";
 
 export const generateWxIcon = () => {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
     // 将生成的svg path保存到对象中
     // const iconData: {[key: string]: string} = {}
     const iconData: string[] = []
     const iconEnum: string[] = []
+    // import() 指定所要加载的模块的位置
+    const iconObj = (await import('../../src/svg-data/export')).default
     Object.keys(iconObj).forEach((iconKey) => {
       // 这里还要处理双色的情况
       const target = iconObj[iconKey].icon as AbstractNode
