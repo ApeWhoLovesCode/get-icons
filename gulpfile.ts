@@ -60,10 +60,10 @@ export default series(
       filename: ({ name }) => getIdentifier({ name, themeSuffix: 'Linear' })
     }),
 
-    // 2.3 根据svg图标生成对于的代码段 主题: faceted
+    // 2.3 根据svg图标生成对于的代码段 主题: surface
     generateIcons({
-      theme: 'faceted',
-      from: ['src/svg/faceted/*.svg'],
+      theme: 'surface',
+      from: ['src/svg/surface/*.svg'],
       toDir: 'src/svg-data/asn',
       svgoConfig: generalConfig,
       extraNodeTransformFactories: [
@@ -73,10 +73,10 @@ export default series(
       stringify: JSON.stringify,
       template: iconTemplate,
       mapToInterpolate: ({ name, content }) => ({
-        identifier: getIdentifier({ name, themeSuffix: 'Faceted' }),
+        identifier: getIdentifier({ name, themeSuffix: 'Surface' }),
         content
       }),
-      filename: ({ name }) => getIdentifier({ name, themeSuffix: 'Faceted' })
+      filename: ({ name }) => getIdentifier({ name, themeSuffix: 'Surface' })
     }),
 
     // 2.4 根据svg图标生成对于的代码段 主题: twotone

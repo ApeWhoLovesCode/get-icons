@@ -11,5 +11,5 @@ export interface IconDefinition {
   icon: ((primaryColor: string, secondaryColor: string) => AbstractNode) | AbstractNode;
 }
 
-export type ThemeType = 'linear' | 'faceted'  | 'twotone';
-export type ThemeTypeUpperCase = 'Linear' | 'Faceted' | 'TwoTone';
+export type ThemeType = 'linear' | 'surface'  | 'twotone';
+export type ThemeTypeUpperCase = 'Linear' | 'Surface' | 'TwoTone';

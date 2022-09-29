@@ -23,7 +23,7 @@ const sortLetter = (list: string[]) => {
 }
 
 const findThemeIndex = (str: string) => {
-  const theme = ['Linear', 'Faceted', 'TwoTone']
+  const theme = ['Linear', 'Surface', 'TwoTone']
   for(const i in theme) {
     if(str.indexOf(theme[i]) !== -1) {
       return +i

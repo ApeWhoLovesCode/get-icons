@@ -3,11 +3,12 @@
  */
 const puppeteer = require('puppeteer')
 const fs = require('fs')
+const iconUrl = 'https://www.iconfont.cn/user/detail?spm=a313x.7781069.1998910419.d9bd4f23f&uid=9130643&nid=7smdkOsK6RuQ'
 
 const getSvg = async (url) => {
   //启动浏览器
-  const browers = await puppeteer.launch()
-  // const browers = await puppeteer.launch({headless: false}) // 打开浏览器
+  // const browers = await puppeteer.launch()
+  const browers = await puppeteer.launch({headless: false}) // 打开浏览器
   //启动新页面
   const page = await browers.newPage()
   //链接网址
@@ -30,6 +31,7 @@ const getSvg = async (url) => {
       const titleEle = document.querySelector(`.collection-list .block-collection:nth-child(${index}) .collection-info .info-item span`)
       return titleEle.innerHTML
     }, i)
+    // 处理一下icon文件夹的名称
     svgListKey = svgListKey.replace('怡本-', '').replace('icon', '')
     // 跳转到iconfont里面的svg详情页
     aEle.click()
@@ -57,7 +59,9 @@ const getSvg = async (url) => {
   console.log('----translate-done----');
   // console.log('en-name: ', newStr);
 
+  // svg数组
   const newSvgAllList = strToArr(newStr, svgAllList)
+  // console.log('newSvgAllList: ', newSvgAllList);
 
   // 生成 svg 文件夹 / 文件
   const dir = `src/svg`
@@ -83,12 +87,12 @@ const getSvg = async (url) => {
   // 最后关闭浏览器
   await browers.close();
 }
-getSvg('https://www.iconfont.cn/user/detail?spm=a313x.7781069.1998910419.d9bd4f23f&uid=9130643&nid=7smdkOsK6RuQ')
+getSvg(iconUrl)
 
 /** 翻译 */
 const translate = async (str) => {
-  const browers = await puppeteer.launch() 
-  // const browers = await puppeteer.launch({headless: false}) // 打开浏览器
+  // const browers = await puppeteer.launch() 
+  const browers = await puppeteer.launch({headless: false}) // 打开浏览器
   //启动新页面
   const page = await browers.newPage()
   //链接网址
@@ -133,7 +137,7 @@ const arrToStr = (arr) => {
  * 将字符串转成svg对象数组 (中午key变英文key)
  * return {
  *  linear: { phone: svg, user: svg }, 
- *  faceted: { phone: svg, user: svg }
+ *  surface: { phone: svg, user: svg }
  * }
  */
 const strToArr = (str, arr) => {
@@ -153,13 +157,16 @@ const strToArr = (str, arr) => {
   }
   return newArr
 }
-/** 将空格清除，把后面的字符变为大写 */
+/** 将字母的空格清除，并把后面的字符变为大写 例: i love you --> iLoveYou */
 const handleSpace = (target) => {
-  const spaceIndex = target.indexOf(' ')
-  if(spaceIndex === -1) return target
-  const letter = target[spaceIndex+1]
-  const reg = new RegExp(` ${letter}`)
-  return target.replace(reg, letter.toLocaleUpperCase())
+  let spaceIndex = target.indexOf(' ')
+  while(spaceIndex !== -1) {
+    const letter = target[spaceIndex+1]
+    const reg = new RegExp(` ${letter}`)
+    target = target.replace(reg, letter.toLocaleUpperCase())
+    spaceIndex = target.indexOf(' ')
+  }
+  return target
 }
 
 
